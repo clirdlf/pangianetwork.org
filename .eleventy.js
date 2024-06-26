@@ -238,7 +238,8 @@ module.exports = function (eleventyConfig) {
 
 	// https://www.npmjs.com/package/eleventy-plugin-hubspot
 	eleventyConfig.addPlugin(eleventyPluginHubspot, {
-		portalId: 20251227
+		portalId: 20251227,
+		loadingMode: 'lazy'
 	})
 
 	eleventyConfig.addFilter('markdownify', (str) => {
