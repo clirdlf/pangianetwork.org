@@ -27,7 +27,7 @@ function generateImages(src, widths) {
 	let options = {
 		widths: widths,
 		formats: ['webp', 'jpeg'],
-		outputDir: '_site/assets/images/',
+		outputDir: './public/assets/images/',
 		urlPath: '/assets/images/',
 		useCache: true,
 		sharpJpegOptions: {
