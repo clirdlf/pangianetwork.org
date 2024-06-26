@@ -1,0 +1,16 @@
+---
+permalink: /site.webmanifest
+eleventyExcludeFromCollections: true
+---
+{
+    "short_name": "{{ metadata.shorttitle }}",
+    "name": "{{ metadata.title }}",
+    "icons": [{
+      "src": "{{ metadata.icon | url }}",
+      "type": "image/png",
+      "sizes": "192x192"
+    }],
+    "start_url": "/?utm_source=homescreen",
+    "background_color": "#fafafa",
+    "theme_color": "#fafafa"
+  }
