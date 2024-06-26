@@ -2,7 +2,7 @@
 permalink: /public/robots.txt
 ---
 
-{%- set sitemap_url = [site.url, '/sitemap.xml'] | join %} 
+{%- set sitemap_url = ['https://', metadata.domain, '/sitemap.xml'] | join %} 
 User-agent: *
 Disallow: /build.txt
 
