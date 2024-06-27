@@ -21,40 +21,6 @@ const eleventyPluginHubspot = require('eleventy-plugin-hubspot') // https://www.
 
 const pluginImages = require('./eleventy.images.js')
 
-// https://github.com/11ty/eleventy-img/issues/46#issuecomment-766054646
-function generateImages(src, widths) {
-	let source = path.join(__dirname, 'src', src)
-	let options = {
-		widths: widths,
-		formats: ['webp', 'jpeg'],
-		outputDir: '_site/assets/images/',
-		urlPath: '/assets/images/',
-		useCache: true,
-		sharpJpegOptions: {
-			quality: 99,
-			progressive: true
-		}
-	}
-	// genrate images, ! dont wait
-	Image(source, options)
-	// get metadata even the image are not fully generated
-	return Image.statsSync(source, options)
-}
-
-function imageCssBackground(src, selector, widths) {
-	const metadata = generateImages(src, widths)
-	let markup = [
-		`${selector} { background-image: url(${metadata.jpeg[0].url});} `
-	]
-	// i use always jpeg for backgrounds
-	metadata.jpeg.slice(1).forEach((image, idx) => {
-		markup.push(
-			`@media (min-width: ${metadata.jpeg[idx].width}px) { ${selector} {background-image: url(${image.url});}}`
-		)
-	})
-	return markup.join('')
-}
-
 module.exports = function (eleventyConfig) {
 	eleventyConfig.addPassthroughCopy('src/assets')
 	// eleventyConfig.addPassthroughCopy('CNAME')
@@ -63,6 +29,41 @@ module.exports = function (eleventyConfig) {
 	// eleventyConfig.setBrowserSyncConfig({
 	// 	files: './docs/assets/css/**/*.css'
 	// })
+
+	// https://github.com/11ty/eleventy-img/issues/46#issuecomment-766054646
+	function generateImages(src, widths) {
+		let source = path.join(__dirname, 'src', src)
+		let options = {
+			widths: widths,
+			formats: ['webp', 'jpeg'],
+			// outputDir: '_site/assets/',
+			outputDir: path.join(eleventyConfig.dir.output, 'assets'), // Advanced usage note: `eleventyConfig.dir` works here because we’re using addPlugin
+			urlPath: '/assets',
+			useCache: true,
+			sharpJpegOptions: {
+				quality: 99,
+				progressive: true
+			}
+		}
+		// genrate images, ! dont wait
+		Image(source, options)
+		// get metadata even the image are not fully generated
+		return Image.statsSync(source, options)
+	}
+
+	function imageCssBackground(src, selector, widths) {
+		const metadata = generateImages(src, widths)
+		let markup = [
+			`${selector} { background-image: url(${metadata.jpeg[0].url});} `
+		]
+		// i use always jpeg for backgrounds
+		metadata.jpeg.slice(1).forEach((image, idx) => {
+			markup.push(
+				`@media (min-width: ${metadata.jpeg[idx].width}px) { ${selector} {background-image: url(${image.url});}}`
+			)
+		})
+		return markup.join('')
+	}
 
 	eleventyConfig.addPlugin(EleventyVitePlugin, {
 		tempFolderName: '.11ty-vite', // Default name of the temp folder
@@ -255,6 +256,16 @@ module.exports = function (eleventyConfig) {
 	eleventyConfig.addShortcode('currentTime', () => {
 		return DateTime.now().toString()
 	})
+
+	// eleventyConfig.addShortcode('cssBackground2', async function(classname, src) {
+	// 	let metdata = await Image(src, {
+	// 		widths: [576, 768, 992, 1200, 1400],
+	// 		formats: ["webp", "png"]
+	// 	})
+
+	// 	Image(src)
+
+	// })
 
 	// https://www.11ty.dev/docs/plugins/image/
 	// eleventyConfig.addShortcode('image', async function (src, alt, sizes) {

@@ -39,6 +39,8 @@ module.exports = function (eleventyConfig) {
 				input = relativeToInputPath(this.page.inputPath, src)
 			}
 
+			// console.log('eleventyConfig output dir', eleventyConfig.dir.output)
+
 			let metadata = await eleventyImage(input, {
 				widths: widths || [200, 'auto'],
 				formats,

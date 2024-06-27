@@ -1,13 +1,15 @@
 ---
 layout: base
 ---
-
+{# https://github.com/11ty/eleventy-img/issues/46#issuecomment-766054646 #}
 {%- set css -%} 
 .bg-hero { 
     height: {{ height | default("65vh", true) }};
-    background-size: cover; background-repeat: no-repeat; 
+    background-size: cover; 
+	background-repeat: no-repeat;
+	background-image: url('{{hero_bg}}');
 } 
-{% cssBackground hero_bg, ".bg-hero", [576, 768, 992, 1200, 1400] %}
+{# {% cssBackground hero_bg, ".bg-hero", [576, 768, 992, 1200, 1400] %} #}
 {%- endset -%}
 <style>
 	{{ css | safe | trim }}
