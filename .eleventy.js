@@ -14,9 +14,8 @@ const slugify = require('slugify')
 
 // @11ty plugins
 const eleventyNavigationPlugin = require('@11ty/eleventy-navigation') // https://www.11ty.dev/docs/plugins/navigation/
-const { EleventyRenderPlugin } = require('@11ty/eleventy')
 const Image = require('@11ty/eleventy-img') // https://www.11ty.dev/docs/plugins/image/
-const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite')
+const EleventyVitePlugin = require('@11ty/eleventy-plugin-vite').default
 const eleventyPluginHubspot = require('eleventy-plugin-hubspot') // https://www.npmjs.com/package/eleventy-plugin-hubspot
 
 const pluginImages = require('./eleventy.images.js')
